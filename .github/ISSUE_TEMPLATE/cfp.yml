@@ -1,0 +1,42 @@
+name: Track a CFP opportunity
+description: Capture a verified event and choose a reusable session.
+title: "[CFP] "
+body:
+  - type: input
+    id: event
+    attributes:
+      label: Conference name and official URL
+    validations:
+      required: true
+  - type: input
+    id: deadline
+    attributes:
+      label: CFP deadline with time and timezone
+      description: Use Unknown if the official source does not confirm it.
+    validations:
+      required: true
+  - type: input
+    id: event-details
+    attributes:
+      label: Event dates, location and participation mode
+  - type: dropdown
+    id: session
+    attributes:
+      label: Core session
+      options:
+        - T01 — Reliable TypeScript agents
+        - T02 — Gemini and Cloud Run
+        - T03 — Angular agent interfaces
+        - Undecided
+    validations:
+      required: true
+  - type: textarea
+    id: fit
+    attributes:
+      label: Audience fit and next action
+      description: Include track, duration, level, and an Angular or other audience variant where useful.
+  - type: textarea
+    id: record
+    attributes:
+      label: Tracker and submission links
+      description: Add the opportunity to cfps/README.md and preserve exact sent text in a submission record.
