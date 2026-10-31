@@ -68,7 +68,7 @@ Keep backend internals brief; spend the demo time on the Angular user journey. T
 
 **Title:** The Demo Worked. Then Production Fell Apart.
 
-A 40-minute capacity-and-reliability adaptation for experienced engineers. Anchor it in the speaker's return to the drawing board after production demand met tight provider limits. Focus on engineering for bursts, shared admission, bounded queues, retry budgets, and user-visible overload, using separate controlled experiments. The original experience was not from skein-js. The [conference proposal](../cfps/submissions/S03-code-europe-2027-reliable-agents.md) contains the finalized title and abstract, planned outline, and remaining evidence gaps. It has not been submitted. The original accepted proposal remains unchanged.
+A 40-minute capacity-and-reliability adaptation for experienced engineers. Anchor it in the speaker's return to the drawing board after production demand met tight provider limits. Focus on engineering for bursts, shared admission, bounded queues, retry budgets, and user-visible overload, using separate controlled experiments. The original experience was not from skein-js. The [conference proposal](../cfps/submissions/S03-code-europe-2027-reliable-agents.md) contains the finalized title and abstract, planned outline, and remaining evidence gaps. The speaker confirmed submission on 2026-10-31; the decision is pending. The original accepted proposal remains unchanged.
 
 ## Delivery readiness
 

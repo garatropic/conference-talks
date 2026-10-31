@@ -1,6 +1,6 @@
 # S03 — Code Europe AI 2027 proposal
 
-- Status: **Title and abstract finalized on 2026-10-31; not submitted.**
+- Status: **Submitted**, confirmed by the speaker on 2026-10-31. Title and abstract finalized on 2026-10-31.
 - Opportunity: O04.
 - Canonical session: [T01](../../talks/T01-reliable-agents.md), advanced capacity-and-reliability variant.
 - Official CFP: https://www.codeeurope.pl/cfp (checked 2026-10-30).
@@ -9,7 +9,9 @@
 - Level: advanced application engineering; familiarity with tool-calling agents, HTTP, and persistent storage expected.
 - Language: English.
 - Published deadline: 2027-03-14, 23:59 CET (UTC+01:00), equivalent to 2027-03-15, 01:59 Africa/Nairobi.
-- Submitted at / confirmation: Not submitted.
+- Submitted at: Exact date and time unknown; submission reported by the speaker on 2026-10-31.
+- Confirmation / portal reference: Not provided.
+- Decision: Pending; no acceptance or rejection reported.
 
 ## Final title
 
@@ -77,7 +79,7 @@ The intended AI Agents & Applied AI track and 40-minute format come from the [20
 
 The [form linked by the CFP](https://docs.google.com/forms/d/e/1FAIpQLSfTxVRpbYwVtDOarbfa32w0HFPpDXFh-wxMO4grQBpAjOOhgA/viewform) still has a 2026 heading, dates, submission limit, and track names. Its introduction says it is also collecting 2027 proposals. The CFP page describes a different 2027 program.
 
-Use the 2027 CFP as the planning source. Before submitting, recheck the destination and confirm the intended edition, track mapping, and applicable fields. No abstract length limit or later form fields have been verified; this file is not claimed to be form-ready. No organizer has been contacted.
+This mismatch was observed during preparation on 2026-10-30. The speaker confirmed submission on 2026-10-31; the selected form fields, format, and portal confirmation have not been provided. The historical mismatch does not change the reported submitted status.
 
 ## Questions for the next refinement
 
@@ -86,11 +88,16 @@ Use the 2027 CFP as the planning source. Before submitting, recheck the destinat
 - What was tried, and what helped or remained unresolved? Do not infer a fix from the problem alone.
 - Are logs, code, or numbers available? If not, keep the story qualitative and use labeled experiments for measurements.
 
-## Before submission
+## Remaining preparation and recordkeeping
 
-- [ ] Add confirmed details of the original experience and remove any unsupported implication.
+- [ ] Add confirmed details of the original experience to delivery preparation notes; preserve the submitted title and abstract.
 - [ ] Build and run the overload experiment; verify that the finalized abstract’s teaching promises are supported.
 - [ ] Select and verify any skein-js implementation excerpts.
 - [ ] Prepare reproducible results, a fallback trace, and honest limitations.
 - [ ] Confirm in-person versus online preference and available speaking evidence.
-- [ ] Resolve the form mismatch and verify field limits.
+- [ ] Retain the submission confirmation, exact timestamp, and selected format/track when available.
+
+## Status history
+
+- 2026-10-31: Title and abstract finalized.
+- 2026-10-31: Speaker reported the proposal submitted; exact submission timestamp and portal confirmation not provided.
