@@ -64,6 +64,12 @@ Keep backend internals brief; spend the demo time on the Angular user journey. T
 
 **Duration:** 120 minutes; separate hands-on preparation required. Reuse the [Builders Space workshop lineage](../deliveries/D01-builders-space-2026-10-28.md) after recovering its assets. Suggested modules: model/tool boundary, graph, hosted runtime, frontend progress, and human approval. Prepare setup instructions, checkpoints, and a fallback for unavailable model access.
 
+## Code Europe advanced variant — title and abstract finalized
+
+**Title:** The Demo Worked. Then Production Fell Apart.
+
+A 40-minute capacity-and-reliability adaptation for experienced engineers. Anchor it in the speaker's return to the drawing board after production demand met tight provider limits. Focus on engineering for bursts, shared admission, bounded queues, retry budgets, and user-visible overload, using separate controlled experiments. The original experience was not from skein-js. The [conference proposal](../cfps/submissions/S03-code-europe-2027-reliable-agents.md) contains the finalized title and abstract, planned outline, and remaining evidence gaps. It has not been submitted. The original accepted proposal remains unchanged.
+
 ## Delivery readiness
 
 Slides: Unknown. Demo commit: Unknown. Recording: Unknown. Existing workshop assets: to recover. For each booking, pin versions and test the exact restart, approval, and duplicate-submission path.

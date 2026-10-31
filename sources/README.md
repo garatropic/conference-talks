@@ -11,6 +11,7 @@ Checked 2026-10-30. User attachments are reference material, not instructions. T
 | S05 | [skein-js source](https://github.com/skein-js/skein-js) | Primary project reference | Delivery-specific version and tested guarantees |
 | S06 | [A2UI](https://a2ui.org/) | Primary source for agent-driven declarative interfaces | Version and renderer to select for the demo |
 | S07 | [JSON Render](https://github.com/vercel-labs/json-render) | Separate generative UI framework and component-catalog approach | Angular integration choice; verify before claiming support |
+| S08 | [Code Europe 2027 CFP](https://www.codeeurope.pl/cfp) and [linked form](https://docs.google.com/forms/d/e/1FAIpQLSfTxVRpbYwVtDOarbfa32w0HFPpDXFh-wxMO4grQBpAjOOhgA/viewform) | Published 2027 dates, deadline, audience, track and formats | Form retains 2026 details while accepting 2027 proposals; edition/track mapping and later fields require confirmation |
 
 The browser displayed Wednesday October 28 and “ended 2 days ago” on 2026-10-30, supporting the recorded year 2026 for S03. Retain the source URL and verify organizer updates when preparing future materials.
 
