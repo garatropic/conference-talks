@@ -46,7 +46,7 @@ h1 { font-size: clamp(3rem, 8vw, 5.75rem); line-height: 1; letter-spacing: -0.05
   border-radius: 1rem;
 }
 
-.deck-cover { display: block; width: 100%; aspect-ratio: 16 / 8; object-fit: cover; }
+.deck-cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #f6f8fb; }
 .deck-info { flex: 1; padding: 1.25rem clamp(1.1rem, 3vw, 1.6rem); }
 .event { margin-bottom: 0.55rem; color: #44586f; font-size: 0.875rem; font-weight: 700; }
 .deck-info h2 { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.15; letter-spacing: -0.036em; }

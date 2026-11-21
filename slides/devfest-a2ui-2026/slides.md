@@ -4,6 +4,8 @@ layout: default
 colorSchema: light
 title: "When Agent Responses Become Interfaces: A2UI with Angular"
 author: Maina Wycliffe
+seoMeta:
+  ogImage: cover.png
 aspectRatio: 16/9
 canvasWidth: 980
 transition: none

@@ -1,0 +1,15 @@
+{
+  "name": "conference-talks",
+  "private": true,
+  "scripts": {
+    "postinstall": "patch-package --error-on-fail",
+    "slides:dev": "slidev-workspace preview",
+    "slides:build": "node site/build.mjs"
+  },
+  "devDependencies": {
+    "patch-package": "8.0.1",
+    "pnpm": "10.34.9",
+    "slidev-workspace": "0.10.0",
+    "typescript": "5.9.3"
+  }
+}

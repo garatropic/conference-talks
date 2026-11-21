@@ -12,6 +12,7 @@ Wycliffe Maina's reusable speaking catalog and conference pipeline.
 - [Delivery history](deliveries/README.md)
 - [Shared demo plan](demos/README.md)
 - [Evidence and open questions](sources/README.md)
+- [Slide library and local preview](site/README.md)
 
 ## Three core sessions
 
@@ -38,4 +39,4 @@ Use dates as `YYYY-MM-DD`; deadlines need an exact time and timezone. Use `Unkno
 
 ## Repository scope
 
-Markdown is the source of truth; no application, dependencies, or build step is needed. Git history tracks revisions. GitHub issue forms provide optional task intake; the tables and records remain authoritative. Start private for working proposals; decide separately which materials to publish. Contact details, registration data, and unredacted screenshots are intentionally omitted.
+Markdown is the source of truth. The speaking catalog and CFP tracker work without dependencies or a build step. Git history tracks revisions. GitHub issue forms provide optional task intake; the tables and records remain authoritative. Start private for working proposals; decide separately which materials to publish. Contact details, registration data, and unredacted screenshots are intentionally omitted.

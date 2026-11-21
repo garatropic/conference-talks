@@ -4,7 +4,14 @@
     "title": "When Agent Responses Become Interfaces",
     "subtitle": "A2UI with Angular",
     "event": "DevFest 2026",
-    "cover": "devfest/hero-background.png",
+    "cover": "cover.png",
     "pdf": "devfest-2026-a2ui-with-angular.pdf"
+  },
+  {
+    "slug": "conf42-mlops-2026",
+    "title": "Your Agent Works. Will It Survive Tomorrow?",
+    "subtitle": "Operating LangGraph.js with skein-js",
+    "event": "Conf42 MLOps 2026",
+    "cover": "cover.png"
   }
 ]

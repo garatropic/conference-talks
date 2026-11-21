@@ -1,0 +1,7 @@
+slidesDir:
+  - ./slides
+hero:
+  title: Conference talks
+  description: Browse and preview your Slidev decks.
+sidebar:
+  title: Conference talks

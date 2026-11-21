@@ -3,6 +3,8 @@ theme: default
 colorSchema: light
 title: Your Agent Works. Will It Survive Tomorrow? Operating LangGraph.js with skein-js
 author: Maina Wycliffe
+seoMeta:
+  ogImage: cover.png
 fonts:
   provider: none
   sans: Arial

@@ -1,0 +1,54 @@
+diff --git a/node_modules/slidev-workspace/src/preview/components/SlideCard.vue b/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
+index 708820e..cfafaf1 100644
+--- a/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
++++ b/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
+@@ -7,7 +7,7 @@
+       <div class="relative overflow-hidden rounded-t-lg">
+         <Skeleton
+           v-if="isLoading && image"
+-          class="w-full h-48 rounded-b-none"
++          class="w-full aspect-video rounded-b-none"
+         />
+         <img
+           v-if="image"
+@@ -15,13 +15,13 @@
+           v-show="!isLoading"
+           :src="image"
+           :alt="title"
+-          class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
++          class="w-full aspect-video object-contain bg-muted"
+           @load="onImageLoad"
+           @error="onImageError"
+         />
+         <div
+           v-if="!image"
+-          class="w-full h-48 bg-muted flex items-center justify-center"
++          class="w-full aspect-video bg-muted flex items-center justify-center"
+         >
+           <span class="text-muted-foreground">No Image</span>
+         </div>
+@@ -47,9 +47,9 @@
+             <User class="h-3 w-3" />
+             <span>{{ author }}</span>
+           </div>
+-          <div class="flex items-center gap-1">
++          <div v-if="date" class="flex items-center gap-1">
+             <Calendar class="h-3 w-3" />
+-            <span>{{ date }}</span>
++            <time :datetime="date">{{ date }}</time>
+           </div>
+         </div>
+       </CardContent>
+diff --git a/node_modules/slidev-workspace/src/preview/composables/useSlides.ts b/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
+index 9c1e404..71310f7 100644
+--- a/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
++++ b/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
+@@ -131,7 +131,7 @@ export function useSlides() {
+           "No description available",
+         image: imageUrl,
+         author: slide.frontmatter.author || "Unknown Author",
+-        date: slide.frontmatter.date || new Date().toISOString().split("T")[0],
++        date: typeof slide.frontmatter.date === "string" ? slide.frontmatter.date.trim() : "",
+         theme: slide.frontmatter.theme,
+         transition: slide.frontmatter.transition,
+         class: slide.frontmatter.class,

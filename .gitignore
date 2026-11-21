@@ -4,3 +4,4 @@
 !.env.example
 private/
 *.local.md
+/node_modules/
