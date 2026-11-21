@@ -72,4 +72,4 @@ A 40-minute capacity-and-reliability adaptation for experienced engineers. Ancho
 
 ## Delivery readiness
 
-Slides: Unknown. Demo commit: Unknown. Recording: Unknown. Existing workshop assets: to recover. For each booking, pin versions and test the exact restart, approval, and duplicate-submission path.
+Slides: [Conf42 MLOps 2026 draft recording deck](../slides/conf42-mlops-2026/README.md). Conf42 demo baseline: pinned in the deck rehearsal guide, with the recording path pending verification. Recording: Unknown. Existing workshop assets: to recover. For each booking, pin versions and test the exact restart, approval, and duplicate-submission path.
