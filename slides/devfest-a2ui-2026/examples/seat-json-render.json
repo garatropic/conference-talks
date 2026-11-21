@@ -1,0 +1,26 @@
+{
+  "root": "seatCard",
+  "elements": {
+    "seatCard": {
+      "type": "Card",
+      "props": { "title": "Flight JM-204" },
+      "children": ["summary", "seatButton"]
+    },
+    "summary": {
+      "type": "Text",
+      "props": { "content": { "$state": "/seat/summary" } },
+      "children": []
+    },
+    "seatButton": {
+      "type": "Button",
+      "props": { "label": "Use seat 12A" },
+      "children": [],
+      "on": {
+        "press": {
+          "action": "selectSeat",
+          "params": { "seatId": "12A" }
+        }
+      }
+    }
+  }
+}

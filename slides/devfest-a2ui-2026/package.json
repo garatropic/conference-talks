@@ -1,0 +1,12 @@
+{
+  "name": "devfest-a2ui-2026-slides",
+  "private": true,
+  "scripts": {
+    "dev": "slidev",
+    "build": "slidev build"
+  },
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "@slidev/theme-default": "0.25.0"
+  }
+}
