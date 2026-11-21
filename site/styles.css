@@ -1,0 +1,60 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  color: #172638;
+  background: #f6f8fb;
+  line-height: 1.45;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0 auto; width: min(100% - 2.5rem, 72rem); }
+a { color: #174e9c; text-underline-offset: 0.2em; }
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #cdd7e2;
+}
+
+.byline { color: inherit; font-weight: 750; text-decoration: none; }
+main { padding: clamp(2.5rem, 7vw, 5rem) 0 4rem; }
+.intro { margin-bottom: 2.25rem; }
+h1, h2, p { margin: 0; }
+h1 { font-size: clamp(3rem, 8vw, 5.75rem); line-height: 1; letter-spacing: -0.05em; }
+.intro p { margin-top: 0.85rem; color: #44586f; font-size: clamp(1rem, 2.7vw, 1.25rem); }
+
+.deck-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 25rem), 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deck-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #cdd7e2;
+  border-radius: 1rem;
+}
+
+.deck-cover { display: block; width: 100%; aspect-ratio: 16 / 8; object-fit: cover; }
+.deck-info { flex: 1; padding: 1.25rem clamp(1.1rem, 3vw, 1.6rem); }
+.event { margin-bottom: 0.55rem; color: #44586f; font-size: 0.875rem; font-weight: 700; }
+.deck-info h2 { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.15; letter-spacing: -0.036em; }
+.deck-info h2 a { color: inherit; text-decoration: none; }
+.deck-info h2 a:hover { text-decoration: underline; }
+.deck-subtitle { margin-top: 0.5rem; color: #44586f; }
+.deck-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.2rem; margin-top: 1.4rem; }
+.deck-actions a { font-weight: 650; }
+.open-slides { padding: 0.65rem 1rem; background: #174e9c; border-radius: 0.5rem; color: white; text-decoration: none; }
+.open-slides:hover { background: #123b75; }
+:focus-visible { outline: 3px solid #a33e18; outline-offset: 4px; }
