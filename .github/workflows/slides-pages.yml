@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - .github/workflows/slides-pages.yml
+      - package.json
+      - package-lock.json
+      - patches/**
       - site/**
       - slides/**
       - output/pdf/**
@@ -27,6 +30,8 @@ jobs:
           node-version: 24
       - id: pages
         uses: actions/configure-pages@v5
+      - name: Install gallery dependencies
+        run: npm ci
       - name: Build the public slide library
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}

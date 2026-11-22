@@ -1,8 +1,21 @@
 diff --git a/node_modules/slidev-workspace/src/preview/components/SlideCard.vue b/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
-index 708820e..cfafaf1 100644
+index 708820e..72f69d5 100644
 --- a/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
 +++ b/node_modules/slidev-workspace/src/preview/components/SlideCard.vue
-@@ -7,7 +7,7 @@
+@@ -1,13 +1,17 @@
+ <template>
+-  <a :href="url" target="_blank">
+-    <Card
+-      class="group hover:shadow-lg transition-all duration-200 cursor-pointer"
++  <Card class="group hover:shadow-lg transition-all duration-200">
++    <a
++      :href="url"
++      :aria-label="`Open slides for ${title}`"
++      target="_blank"
++      rel="noopener"
++      class="block rounded-xl focus-visible:outline-2 focus-visible:outline-ring"
+       @click="$emit('click')"
+     >
        <div class="relative overflow-hidden rounded-t-lg">
          <Skeleton
            v-if="isLoading && image"
@@ -11,7 +24,7 @@ index 708820e..cfafaf1 100644
          />
          <img
            v-if="image"
-@@ -15,13 +15,13 @@
+@@ -15,13 +19,13 @@
            v-show="!isLoading"
            :src="image"
            :alt="title"
@@ -27,7 +40,16 @@ index 708820e..cfafaf1 100644
          >
            <span class="text-muted-foreground">No Image</span>
          </div>
-@@ -47,9 +47,9 @@
+@@ -36,7 +40,7 @@
+       </CardHeader>
+
+       <CardContent class="space-y-3">
+-        <CardDescription class="line-clamp-3 text-sm h-[40px]">{{
++        <CardDescription class="line-clamp-3 text-sm min-h-10">{{
+           description
+         }}</CardDescription>
+
+@@ -47,14 +51,24 @@
              <User class="h-3 w-3" />
              <span>{{ author }}</span>
            </div>
@@ -39,11 +61,98 @@ index 708820e..cfafaf1 100644
            </div>
          </div>
        </CardContent>
+-    </Card>
+-  </a>
++    </a>
++    <CardContent v-if="pdf">
++      <a
++        :href="pdf"
++        :aria-label="`Download PDF for ${title}`"
++        download
++        class="text-sm font-medium text-primary underline underline-offset-4"
++      >
++        Download PDF
++      </a>
++    </CardContent>
++  </Card>
+ </template>
+
+ <script setup lang="ts">
+@@ -75,6 +89,7 @@ const props = defineProps<{
+   image?: string;
+   description?: string;
+   url: string;
++  pdf?: string;
+   author: string;
+   date: string;
+ }>();
+diff --git a/node_modules/slidev-workspace/src/preview/components/SlideDeck.vue b/node_modules/slidev-workspace/src/preview/components/SlideDeck.vue
+index 9a4c10e..a91ac0a 100644
+--- a/node_modules/slidev-workspace/src/preview/components/SlideDeck.vue
++++ b/node_modules/slidev-workspace/src/preview/components/SlideDeck.vue
+@@ -30,6 +30,10 @@
+                 </button>
+               </DrawerTrigger>
+               <DrawerContent class="sw-drawer text-sidebar-foreground">
++                <DrawerTitle class="sr-only">Search and filter slides</DrawerTitle>
++                <DrawerDescription class="sr-only">
++                  Find decks by title, author, or event.
++                </DrawerDescription>
+                 <SlideSidebar
+                   :title="sidebar.title"
+                   :github-url="sidebar.githubUrl"
+@@ -52,7 +56,13 @@
+                   {{ hero.description }}
+                 </p>
+               </div>
+-              <div class="self-start" />
++              <a
++                v-if="'siteUrl' in hero && typeof hero.siteUrl === 'string'"
++                :href="hero.siteUrl"
++                class="self-start text-sm text-primary underline underline-offset-4"
++              >
++                Personal site <span aria-hidden="true">↗</span>
++              </a>
+             </div>
+
+             <div
+@@ -86,6 +96,7 @@
+               :image="slide.image"
+               :description="slide.description"
+               :url="slide.url"
++              :pdf="slide.pdf"
+               :author="slide.author"
+               :date="slide.date"
+             />
+@@ -109,7 +120,13 @@ import { PanelLeft } from "lucide-vue-next";
+ import { useSlides } from "../composables/useSlides";
+ import { useConfig } from "../composables/useConfig";
+ import { useDarkMode } from "../composables/useDarkMode";
+-import { Drawer, DrawerContent, DrawerTrigger } from "../components/ui/drawer";
++import {
++  Drawer,
++  DrawerContent,
++  DrawerDescription,
++  DrawerTitle,
++  DrawerTrigger,
++} from "../components/ui/drawer";
+ import SlideCard from "./SlideCard.vue";
+ import SlideSidebar from "./SlideSidebar.vue";
+ import SlidePagination from "./SlidePagination.vue";
 diff --git a/node_modules/slidev-workspace/src/preview/composables/useSlides.ts b/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
-index 9c1e404..71310f7 100644
+index 9c1e404..c5ec68c 100644
 --- a/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
 +++ b/node_modules/slidev-workspace/src/preview/composables/useSlides.ts
-@@ -131,7 +131,7 @@ export function useSlides() {
+@@ -124,14 +124,15 @@ export function useSlides() {
+
+       return {
+         title: slide.frontmatter.title || slide.path,
+-        url: IS_DEVELOPMENT ? devServerUrl : slide.path,
++        url: IS_DEVELOPMENT ? devServerUrl : `./${slide.path}/`,
++        pdf: "pdf" in slide && typeof slide.pdf === "string" ? slide.pdf : undefined,
+         description:
+           slide.frontmatter.info ||
+           slide.frontmatter.seoMeta?.ogDescription ||
            "No description available",
          image: imageUrl,
          author: slide.frontmatter.author || "Unknown Author",

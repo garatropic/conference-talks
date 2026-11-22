@@ -20,6 +20,8 @@ The workspace lists all local decks, including drafts. To set a thumbnail, expor
 
 [Published slides](https://decks.mainawycliffe.dev/) are built from the entries in [decks.json](decks.json). To add a deck, put its Slidev project in `slides/<slug>/` and add an entry there. Set `cover` to a path inside that deck’s public directory. Set `pdf` to the filename of an export in `output/pdf/`. Both fields are optional.
 
-Run `npm run slides:build` from the repository root to build the whole site into `site/dist`. The folder contains the homepage at `index.html` and one subdirectory per deck, with its HTML, assets, and optional PDF. Pass a fresh output path with `npm run slides:build -- /path/to/preview`. Serve the whole folder with a static web server to check the index and deck links.
+The public homepage uses the same searchable gallery as the local workspace. Its categories come from the events in `decks.json`. Decks with a PDF entry have a download link on their card.
+
+After running `npm ci` at the repository root, run `npm run slides:build` to build the whole site into `site/dist`. The folder contains the homepage at `index.html` and one subdirectory per deck, with its HTML, assets, and optional PDF. Pass a fresh output path with `npm run slides:build -- /path/to/preview`. Serve the whole folder with a static web server to check the index and deck links.
 
 The [Publish slides workflow](../.github/workflows/slides-pages.yml) reads GitHub Pages’ base path, builds each deck without speaker notes, and deploys the generated index, decks, and selected PDFs.

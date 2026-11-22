@@ -3,6 +3,10 @@ import { existsSync } from 'node:fs'
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import tailwindcss from '@tailwindcss/vite'
+import vue from '@vitejs/plugin-vue'
+import { build } from 'vite'
+import { parse } from 'yaml'
 
 const repository = fileURLToPath(new URL('../', import.meta.url))
 const site = join(repository, 'site')
@@ -10,26 +14,23 @@ const output = resolve(process.argv[2] ?? join(site, 'dist'))
 const base = (process.env.PAGES_BASE_PATH ?? '').replace(/\/$/, '')
 const decks = JSON.parse(await readFile(join(site, 'decks.json'), 'utf8'))
 
-function escape(value) {
-  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
-}
-
-function renderCard({ slug, title, subtitle, event, cover, pdf }) {
-  const path = `./${slug}/`
-  const image = cover ? `<img class="deck-cover" src="${path}${escape(cover)}" alt="">` : ''
-  const download = pdf ? `<a href="${path}${escape(pdf)}">Download PDF</a>` : ''
-  return `<li class="deck-card">
-          ${image}
-          <div class="deck-info">
-            <p class="event">${escape(event)}</p>
-            <h2><a href="${path}">${escape(title)}</a></h2>
-            <p class="deck-subtitle">${escape(subtitle)}</p>
-            <div class="deck-actions">
-              <a class="open-slides" href="${path}" aria-label="Open slides for ${escape(title)}">Open slides</a>
-              ${download}
-            </div>
-          </div>
-        </li>`
+async function readPublishedDeck({ slug, title, subtitle, event, cover, pdf }) {
+  const source = await readFile(join(repository, 'slides', slug, 'slides.md'), 'utf8')
+  const headmatter = source.match(/^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/)?.[1]
+  const { author, date } = parse(headmatter ?? '') ?? {}
+  return {
+    path: slug,
+    baseUrl: `${base}/`,
+    category: event,
+    pdf: pdf ? `./${slug}/${encodeURIComponent(pdf)}` : undefined,
+    frontmatter: {
+      title,
+      author: typeof author === 'string' ? author : undefined,
+      date: typeof date === 'string' ? date : undefined,
+      info: [event, subtitle].filter(Boolean).join(' · '),
+      seoMeta: { ogImage: cover },
+    },
+  }
 }
 
 const slugs = decks.map(deck => deck.slug)
@@ -58,8 +59,51 @@ for (const { slug, cover, pdf } of decks) {
   }
 }
 
-const template = await readFile(join(site, 'index.html'), 'utf8')
-await writeFile(join(output, 'index.html'), template.replace('<!-- DECKS -->', () => decks.map(renderCard).join('\n        ')))
-await copyFile(join(site, 'styles.css'), join(output, 'styles.css'))
+const workspace = fileURLToPath(new URL('./src/preview/', import.meta.resolve('slidev-workspace/package.json')))
+const gallery = {
+  hero: {
+    title: 'Talk slides',
+    description: 'Interactive decks and PDF downloads from my talks.',
+    siteUrl: 'https://mainawycliffe.dev/',
+  },
+  sidebar: { title: 'Maina Wycliffe' },
+}
+// Only the allowlisted deck summaries reach the gallery bundle.
+const modules = new Map([
+  ['\0slidev:config', gallery],
+  ['\0slidev:content', await Promise.all(decks.map(readPublishedDeck))],
+])
+
+await build({
+  configFile: false,
+  root: workspace,
+  base: `${base}/`,
+  resolve: { alias: { '@': workspace } },
+  build: { outDir: output, emptyOutDir: false },
+  plugins: [
+    vue(),
+    tailwindcss(),
+    {
+      name: 'published-slide-gallery',
+      resolveId(id) {
+        const virtualId = `\0${id}`
+        if (modules.has(virtualId)) return virtualId
+      },
+      load(id) {
+        if (modules.has(id)) return `export default ${JSON.stringify(modules.get(id))}`
+      },
+      transformIndexHtml(html) {
+        return {
+          html: html.replace('<title>Slidev Workspace</title>', '<title>Talk slides · Maina Wycliffe</title>'),
+          tags: [
+            { tag: 'meta', attrs: { name: 'description', content: 'Interactive talk slides and PDFs by Maina Wycliffe.' } },
+            { tag: 'link', attrs: { rel: 'icon', href: `${base}/favicon.svg` } },
+          ],
+        }
+      },
+    },
+  ],
+})
+
 await writeFile(join(output, '.nojekyll'), '')
 console.log(`Built ${decks.length} deck(s) in ${output}`)

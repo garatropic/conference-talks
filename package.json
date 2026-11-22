@@ -7,9 +7,13 @@
     "slides:build": "node site/build.mjs"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "4.3.5",
+    "@vitejs/plugin-vue": "6.0.11",
     "patch-package": "8.0.1",
     "pnpm": "10.34.9",
     "slidev-workspace": "0.10.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "npm:rolldown-vite@7.3.1",
+    "yaml": "2.9.1"
   }
 }
