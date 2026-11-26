@@ -47,4 +47,4 @@ Lead with the Angular client and the boundary to a deployed agent. Keep deployme
 
 ## Delivery readiness
 
-Slides: Unknown. Demo source and cloud deployment: Unknown. Verify current Cloud Run behavior and deployment configuration from official documentation during implementation. Record the selected worker/queue architecture, persistence configuration, concurrency assumptions, costs, and cleanup steps in the demo repository before delivery.
+The [DevFest Lusaka workshop materials](../slides/devfest-lusaka-2026/README.md) cover a 45-minute guided version of this session. The demo uses Gemini on Vertex AI to draft a GitHub dashboard. Attendees see how to reconnect to its Cloud Run workflow and approve the saved draft. The [private demo runbook](../demos/devfest-lusaka-2026/README.md) records the pinned revision, deployment, rehearsal, and cleanup steps.

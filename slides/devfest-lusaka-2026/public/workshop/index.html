@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Replay the DevFest Lusaka demo and run a recoverable TypeScript workflow with LangGraph.js and skein-js.">
+  <title>Reliable TypeScript agents | DevFest Lusaka workshop</title>
+  <link rel="icon" type="image/svg+xml" href="../skein-knot.svg">
+  <link rel="stylesheet" href="workshop.css">
+</head>
+<body>
+<header>
+  <p class="event">DevFest Lusaka 2026</p>
+  <h1>Can your dashboard survive a disconnect?</h1>
+  <p>You ask an AI agent for a GitHub dashboard. The preview appears, then your connection drops. If you open the same chat, what will still be there?</p>
+  <nav aria-label="Workshop resources">
+    <a class="primary-link" href="#replay">Try the 2-minute replay</a>
+    <a href="#codelab">Run it on your machine</a>
+    <a href="../">Slides</a>
+    <a href="#production">Production architecture</a>
+  </nav>
+</header>
+
+<main>
+  <section id="replay" aria-labelledby="replay-title">
+    <h2 id="replay-title">What comes back when you reopen the chat?</h2>
+    <p>Follow the screenshots with sample data. You can try the replay without an account or an install.</p>
+    <p>You send this prompt and the app starts building the dashboard.</p>
+    <blockquote>Build a dashboard for <strong>skein-js/skein-js</strong> with its description, stars, and forks.</blockquote>
+    <figure><img src="images/stream.jpg" alt="The playground shows the request and a preview that says Sketching your interface." width="1120" height="840"></figure>
+    <p>Now imagine you close the tab while the server is still working. By the time you return, the draft has reached review. Make a prediction, then reveal what happens.</p>
+    <details class="replay-reveal">
+      <summary>Reopen the saved chat</summary>
+      <p><strong>Your dashboard is waiting for you.</strong> The original request and the pending review return with it. The thread ID in the URL tells Skein which saved conversation to load.</p>
+      <figure><img src="images/review.jpg" alt="The saved GitHub dashboard is back with Reject and Approve UI controls." width="1120" height="840" loading="lazy"></figure>
+      <details>
+        <summary>Reveal what happens when you approve</summary>
+        <p>LangGraph continues from the review step and records your decision. The app now lets you change the dashboard. Approval is saved inside the demo.</p>
+        <figure><img src="images/approved.jpg" alt="The app confirms that the dashboard was approved and shows the refinement controls." width="1120" height="840" loading="lazy"></figure>
+      </details>
+    </details>
+    <details>
+      <summary>What if you choose New chat?</summary>
+      <p>You get an empty conversation, and your first request starts a new thread. Open the original chat URL to find your draft again.</p>
+    </details>
+    <details>
+      <summary>What did Gemini, LangGraph, and Skein each do?</summary>
+      <p>Gemini requested a public GitHub lookup, then used the returned description, stars, and forks to draft a view. LangGraph ran the lookup and paused the workflow for review. Skein ran the workflow on the server, streamed progress to the browser, and loaded the saved draft when you returned. Angular turned the view description into the dashboard you see.</p>
+    </details>
+    <p><a href="#codelab">Try it with a real repository on your machine</a></p>
+  </section>
+
+  <section id="codelab" aria-labelledby="codelab-title">
+    <h2 id="codelab-title">Run the demo on your machine</h2>
+    <p>Allow 30–45 minutes. Start with the finished TypeScript example. Your goal is to make a dashboard, restart the server, and find the same draft waiting for you.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Get the tools and download the example</h3>
+        <p>You’ll need Git to download the code, Node.js to run it, and pnpm to install its dependencies.</p>
+        <details>
+          <summary>Install or check the tools</summary>
+          <p>Install <a href="https://git-scm.com/install/">Git</a> and <a href="https://nodejs.org/en/download">Node.js 24 or 26</a> for your operating system. Open a new terminal and run these commands to check your versions.</p>
+          <pre><code>git --version
+node --version
+pnpm --version</code></pre>
+          <p>If pnpm is missing or uses a different version, install the version used by this example. Then run <code>pnpm --version</code> again and check for <code>9.15.0</code>. Use the same Node.js version in both terminals.</p>
+          <pre><code>npm install --global pnpm@9.15.0</code></pre>
+        </details>
+        <p>In a terminal, run these commands from a folder where you keep projects. The commit ID selects the version used in the workshop.</p>
+        <pre><code>git clone https://github.com/skein-js/skein-js.git lusaka-workshop
+cd lusaka-workshop
+git switch --detach 1b1a4d4018d1dad718054cd4f71d65f582e653a2
+pnpm install --frozen-lockfile</code></pre>
+        <p><strong>Check your progress.</strong> Your terminal should now be in <code>lusaka-workshop</code> and the install should finish without an error.</p>
+      </li>
+      <li>
+        <h3>Start the backend and open the playground</h3>
+        <p><a href="https://aistudio.google.com/apikey">Create a Gemini API key in Google AI Studio</a>. The local example uses the Gemini Developer API. In your editor, open <code>lusaka-workshop</code> and create a file named <code>.env</code> inside <code>examples/a2ui</code>. Add these two lines and replace <code>your-own-key</code> with your key. Keep the key in that file.</p>
+        <pre><code>A2UI_MODEL=google:gemini-3.5-flash-lite
+GOOGLE_API_KEY=your-own-key</code></pre>
+        <p><strong>Terminal 1 · Skein backend.</strong> From <code>lusaka-workshop</code>, build the example and its dependencies.</p>
+        <pre><code>pnpm exec nx run example-a2ui:build</code></pre>
+        <p>In the same terminal, move into the example folder and start Skein. The SQLite file keeps your dashboard on disk so it can survive a restart.</p>
+        <pre><code>cd examples/a2ui
+node ../../packages/cli/dist/index.js dev --host 127.0.0.1 --port 2025 --store sqlite --queue sqlite --sqlite-path .skein/lusaka.sqlite</code></pre>
+        <p><strong>Terminal 2 · Angular frontend.</strong> Leave Terminal 1 running. Open a second terminal in the <code>lusaka-workshop</code> folder and run this command.</p>
+        <pre><code>pnpm exec nx run example-a2ui:serve</code></pre>
+        <p><strong>Check your progress.</strong> When Angular is ready, open <a href="http://127.0.0.1:3007/">the playground at localhost port 3007</a>. You should see “Explore public GitHub data” and a prompt box.</p>
+        <details>
+          <summary>What if the playground fails to start?</summary>
+          <ul>
+            <li>If the page does not open, check that Terminal 2 is still running and that you opened port 3007.</li>
+            <li>If the page opens but Send fails, check Terminal 1. For a missing key, check <code>examples/a2ui/.env</code> and restart Skein.</li>
+            <li>If GitHub rate-limits the lookup, wait and retry or continue with the <a href="#replay">browser replay</a>.</li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <h3>See what survives a restart</h3>
+        <blockquote>Build a dashboard for <strong>skein-js/skein-js</strong> with its description, stars, and forks.</blockquote>
+        <ol>
+          <li>Paste the prompt into the playground and select <strong>Send</strong>.</li>
+          <li>If you catch it while it’s building, select <strong>Pause updates</strong> and then <strong>Reconnect</strong>. If the draft is already ready, go straight to the next step.</li>
+          <li>When you see <strong>Approve UI</strong>, leave the approval pending. Copy the full URL from the address bar and close the tab.</li>
+          <li>In Terminal 1, press <kbd>Ctrl</kbd>+<kbd>C</kbd> to stop Skein. Press the up arrow to recall the same SQLite command and run it again. Leave Terminal 2 running.</li>
+          <li>Once Skein is listening again, open your saved URL in a new tab. Look for your original prompt, the same dashboard, and the same review controls. Select <strong>Approve UI</strong>, then reload and check that the approval is still there.</li>
+        </ol>
+        <p><strong>Check your progress.</strong> The approval survived the reload. The URL’s thread ID pointed Skein to the state it had already saved in SQLite.</p>
+      </li>
+      <li>
+        <h3>Make a change of your own</h3>
+        <p>On the same chat, send <strong>“Show forks before stars.”</strong> You can leave out the repository name. The next run gets the saved dashboard as context. Compare the new draft with the earlier one, then approve or reject the change.</p>
+        <p>Try <strong>New chat</strong> with the same short prompt. What would the agent need to ask you before it could make a dashboard? Or start with a public repository you actually use.</p>
+        <details>
+          <summary>Find the moving parts in TypeScript</summary>
+          <p>See where <a href="https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653a2/examples/a2ui/langgraph.json">Skein loads the graph</a>, how <a href="https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653a2/examples/a2ui/src/ui-graph.ts">LangGraph pauses at review</a>, and how <a href="https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653a2/examples/a2ui/src/ui-session.ts">the browser uses the thread ID</a>.</p>
+        </details>
+        <p>When you’re done, press <kbd>Ctrl</kbd>+<kbd>C</kbd> in both terminals. See where the same pieces run in the <a href="#production">Cloud Run deployment</a> or watch the <a href="#building-blocks">Skein building-blocks animation</a>.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="production" aria-labelledby="production-title">
+    <h2 id="production-title">Persistence and queues on Cloud Run</h2>
+    <p>The hosted demo runs the same workflow in Skein on Cloud Run. The worker calls Gemini 3.5 Flash-Lite on Vertex AI using the Cloud Run service account. Cloud SQL and Redis keep the saved state and queue outside the application containers.</p>
+    <ul>
+      <li><strong>Cloud SQL for PostgreSQL</strong> stores threads, run records, and LangGraph checkpoints. When a Cloud Run revision changes, Skein can load the saved dashboard and its pending approval from the same database.</li>
+      <li><strong>Memorystore for Redis</strong> holds the background run queue and distributes live events across Skein instances. The browser follows those events through the Skein API.</li>
+    </ul>
+    <p>The deployment attaches Cloud SQL to Cloud Run and reaches Redis through Direct VPC egress. Secret Manager provides <code>POSTGRES_URI</code> and <code>REDIS_URI</code> to the Skein container. Application Default Credentials use the Cloud Run service identity for Vertex AI.</p>
+    <p><a href="https://skein.js.org/deploy-cloud-run">Skein Cloud Run deployment guide</a> · <a href="https://docs.cloud.google.com/run/docs/securing/service-identity">Cloud Run service identity</a> · <a href="https://docs.cloud.google.com/sql/docs/postgres/connect-run">Connect Cloud Run to Cloud SQL</a> · <a href="https://docs.cloud.google.com/memorystore/docs/redis/connect-redis-instance-cloud-run">Connect Cloud Run to Redis</a></p>
+  </section>
+
+  <section id="building-blocks" aria-labelledby="video-title">
+    <h2 id="video-title">Skein’s building blocks</h2>
+    <p>A 14-second illustration by Maina Wycliffe, the creator of skein-js.</p>
+    <video controls playsinline preload="none" poster="images/building-blocks.png" aria-label="Skein building-blocks illustration">
+      <source src="skein-building-blocks.mp4" type="video/mp4">
+      <a href="skein-building-blocks.mp4">Open the video file</a>
+    </video>
+    <p>The animation follows a weather request. LangGraph.js runs the model node, the model asks for a weather tool, and Skein streams the resulting reply to the client. In the workshop, the same runtime hosts a graph that looks up a GitHub repository and streams a dashboard. <a href="https://skein.js.org/building-blocks">Read the building-blocks guide</a></p>
+  </section>
+</main>
+
+<footer>
+  <p>Maina Wycliffe · Chief Builder @ Garatropic<br />DevFest Lusaka 2026</p>
+  <nav aria-label="Maina Wycliffe’s profiles and company website">
+    <a href="https://github.com/mainawycliffe">GitHub @mainawycliffe</a>
+    <a href="https://www.linkedin.com/in/mainawycliffe/">LinkedIn @mainawycliffe</a>
+    <a href="https://x.com/_mainawycliffe">X @_mainawycliffe</a>
+    <a href="https://garatropic.com/">garatropic.com</a>
+  </nav>
+</footer>
+</body>
+</html>

@@ -13,5 +13,12 @@
     "subtitle": "Operating LangGraph.js with skein-js",
     "event": "Conf42 MLOps 2026",
     "cover": "cover.png"
+  },
+  {
+    "slug": "devfest-lusaka-2026",
+    "title": "Beyond the Demo: Building Reliable AI Agents with Gemini and Cloud Run",
+    "subtitle": "TypeScript workshop with LangGraph.js and skein-js",
+    "event": "DevFest Lusaka 2026",
+    "cover": "cover.png"
   }
 ]

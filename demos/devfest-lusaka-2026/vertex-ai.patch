@@ -1,0 +1,37 @@
+--- a/examples/github-playground/src/index.ts
++++ b/examples/github-playground/src/index.ts
+@@ -3,5 +3,5 @@
+ import { END, MessagesValue, START, StateGraph, StateSchema } from "@langchain/langgraph";
+ import { ToolNode, toolsCondition } from "@langchain/langgraph/prebuilt";
+-import { initChatModel } from "langchain/chat_models/universal";
++import { ChatGoogle } from "@langchain/google/node";
+
+ import { githubTools } from "./github-tools.js";
+@@ -20,14 +20,9 @@
+ }
+
+-/** Validate the server's Gemini configuration before loading the graph or calling the model. */
++/** Validate the model name before loading the graph. */
+ export function readGitHubUiModel(modelSetting: ModelSetting): string {
+-  if (!process.env["GOOGLE_API_KEY"]?.trim()) {
+-    throw new Error("Set GOOGLE_API_KEY in the server environment or .env to use Gemini.");
+-  }
+-
+   const model = process.env[modelSetting]?.trim();
+-  if (!model) throw new Error(`Set ${modelSetting} to a LangChain provider:model string.`);
+-
+-  return model.replace(/^google-genai:/, "google:");
++  if (!model) throw new Error(`Set ${modelSetting} to a Vertex AI model ID.`);
++  return model;
+ }
+
+@@ -41,5 +36,7 @@
+   signal,
+ }: GitHubUiRequest): AsyncIterable<string> {
+-  const model = await initChatModel(readGitHubUiModel(modelSetting), {
+-    configurableFields: [],
++  const model = new ChatGoogle({
++    model: readGitHubUiModel(modelSetting),
++    platformType: "gcp",
++    location: "global",
+   });
