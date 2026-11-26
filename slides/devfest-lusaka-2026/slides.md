@@ -23,6 +23,7 @@ fonts:
     <div class="cover-title-card">
       <h1>Beyond the Demo</h1>
       <p class="cover-subtitle">Building Reliable AI Agents<br />with Gemini and Cloud Run</p>
+      <p class="cover-goal">Deploy an agent that saves your progress.</p>
       <p class="cover-stack">TypeScript · LangGraph.js · skein-js</p>
     </div>
     <figure class="cover-speaker">
@@ -44,7 +45,7 @@ fonts:
 <!--
 0:00–2:00
 
-I’m Maina Wycliffe, Chief Builder at Garatropic, an Angular GDE, and the creator of skein-js. Imagine you maintain a GitHub repository and want a dashboard you can review before sharing with your team. We’ll follow that request through a TypeScript agent, interrupt the connection, and see whether we can pick up the same draft. You can follow the demo on screen and repeat it later with the codelab.
+I’m Maina Wycliffe, Chief Builder at Garatropic, an Angular GDE, and the creator of skein-js. We’ll see how to deploy a TypeScript agent that saves your work. We’ll ask the demo for a GitHub dashboard, close the tab, and come back to the same draft to approve it. I’ll share a guide you can follow on your own machine.
 
 https://gdg.community.dev/events/details/google-gdg-lusaka-presents-devfest-lusaka-2026/
 DevFest hero imagery and brackets https://developers.google.com/community/devfest/
@@ -52,7 +53,7 @@ DevFest hero imagery and brackets https://developers.google.com/community/devfes
 
 ---
 
-# The connection drops mid-draft
+# Your connection drops
 
 <script setup>
 const previewPoster = import.meta.env.BASE_URL + 'workshop/images/stream.jpg'
@@ -80,7 +81,7 @@ Read the prompt as the playground recording starts. Send starts the request. Pau
 
 # What is LangGraph.js?
 
-<p class="slide-lead">A TypeScript library for running workflows as graphs.</p>
+<p class="slide-lead">A TypeScript library for building workflows.</p>
 
 <div class="flow" role="group" aria-label="Dashboard workflow">
   <div><strong>Read GitHub</strong></div>
@@ -92,8 +93,8 @@ Read the prompt as the playground recording starts. Send starts the request. Pau
 
 <div class="terms">
   <div><strong>Node</strong><span>A step</span></div>
-  <div><strong>Edge</strong><span>A route</span></div>
-  <div><strong>State</strong><span>Data between steps</span></div>
+  <div><strong>Edge</strong><span>Where to go next</span></div>
+  <div><strong>State</strong><span>Data each step can use</span></div>
 </div>
 
 <!--
@@ -106,12 +107,10 @@ https://docs.langchain.com/oss/javascript/langgraph/graph-api
 
 ---
 
-# Gemini on Vertex AI builds the draft
-
-<p class="demo-prompt">“Build a dashboard for <strong>skein-js/skein-js</strong> with its description, stars, and forks.”</p>
+# Gemini on Vertex AI drafts the dashboard
 
 <div class="flow draft-flow" role="group" aria-label="From GitHub lookup to dashboard">
-  <div><strong>Gemini requests a lookup</strong><span><code>get_github_repository</code></span></div>
+  <div><strong>Gemini asks for GitHub data</strong><span><code>get_github_repository</code></span></div>
   <span aria-hidden="true">→</span>
   <div><strong>LangGraph reads GitHub</strong><span>Description · Stars · Forks</span></div>
   <span class="draft-next" aria-hidden="true">↓</span>
@@ -134,12 +133,12 @@ https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653
 
 ---
 
-# A thread carries context across runs
+# The same URL opens the same chat
 
 <div class="terms">
-  <div><strong>Thread</strong><span>Conversation + workflow state</span></div>
-  <div><strong>Run</strong><span>One execution</span></div>
-  <div><strong>Checkpoint</strong><span>Saved state at one step</span></div>
+  <div><strong>Thread</strong><span>The chat and its saved work</span></div>
+  <div><strong>Run</strong><span>One job for the agent</span></div>
+  <div><strong>Checkpoint</strong><span>Work saved at a step</span></div>
 </div>
 
 <p class="callout"><code>?thread=…</code> <span aria-hidden="true">→</span> Original prompt · Saved draft · Pending review</p>
@@ -155,14 +154,14 @@ https://skein.js.org/threads
 
 ---
 
-# The graph pauses for approval
+# The agent waits for your approval
 
 <div class="flow" role="group" aria-label="Human approval workflow">
-  <div><strong>Save</strong><span>Dashboard draft</span></div>
+  <div><strong>Save the draft</strong></div>
   <span aria-hidden="true">→</span>
-  <div><strong>Pause</strong><span>Wait for review</span></div>
+  <div><strong>Wait for approval</strong></div>
   <span aria-hidden="true">→</span>
-  <div><strong>Resume</strong><span>Record the decision</span></div>
+  <div><strong>Record the decision</strong></div>
 </div>
 
 ```ts
@@ -182,11 +181,11 @@ https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653
 
 ---
 
-# Why does the graph need a backend?
+# Why put the agent on a server?
 
 <div class="comparison">
-  <div><h2>Local script</h2><p>Run <span aria-hidden="true">→</span> Print</p></div>
-  <div><h2>Web app</h2><p>Start <span aria-hidden="true">→</span> Stream <span aria-hidden="true">→</span> Return</p></div>
+  <div><h2>Local script</h2><p>Run <span aria-hidden="true">→</span> Print a result</p></div>
+  <div><h2>Web app</h2><p>Send <span aria-hidden="true">→</span> Watch <span aria-hidden="true">→</span> Reopen</p></div>
 </div>
 
 <!--
@@ -201,16 +200,16 @@ The script can print a dashboard while you wait. Walk the web app through starti
 
 <div class="split runtime">
   <div>
-    <div class="brand"><img src="/skein-knot.svg" alt="" /> <span>Open-source TypeScript runtime</span></div>
+    <div class="brand"><img src="/skein-knot.svg" alt="" /> <span>Hosts your LangGraph.js agent</span></div>
     <figure class="building-blocks">
       <video controls playsinline preload="none" src="/workshop/skein-building-blocks.mp4" poster="/workshop/images/building-blocks.png" aria-label="Skein building blocks, illustrated with a weather request"></video>
       <figcaption><a href="./workshop/index.html#building-blocks">Weather example</a> · 14 seconds</figcaption>
     </figure>
   </div>
   <div class="runtime-diagram" role="group" aria-label="Skein runtime layers">
-    <div><strong>Browser / SDK</strong></div>
+    <div><strong>Browser</strong></div>
     <span aria-hidden="true">↕</span>
-    <div class="runtime-boundary"><strong>skein-js</strong><span>Threads · Streams · Workers</span><div class="graph"><strong>LangGraph.js</strong><span>Your workflow</span></div></div>
+    <div class="runtime-boundary"><strong>skein-js</strong><span>Start runs · Send updates · Save progress</span><div class="graph"><strong>LangGraph.js</strong><span>Runs the workflow</span></div></div>
     <span aria-hidden="true">↕</span>
     <div><strong>Vertex AI · GitHub</strong></div>
   </div>
@@ -219,7 +218,7 @@ The script can print a dashboard while you wait. Walk the web app through starti
 <!--
 17:00–20:00
 
-I built skein-js because I wanted to host a TypeScript graph I already had. Start at the browser or compatible SDK. LangGraph.js executes the graph and defines where it pauses. Skein hosts the graph, exposes an Agent Protocol API and console, and runs workers so the browser can follow progress and return to the same thread. Self-hosting makes the application team responsible for identity, infrastructure, and operations. Show where Gemini and GitHub fit. Play the 14-second weather illustration if time allows. It uses the same division of work with a different tool. Then show how Skein discovers our dashboard graph.
+I built skein-js because I wanted to host a TypeScript graph I already had. It’s an open-source TypeScript runtime. LangGraph.js runs the workflow and defines where it pauses. Skein starts runs, sends progress to the browser, and brings back saved work. Its Agent Protocol API also lets compatible clients talk to it. When you host it yourself, you manage identity, infrastructure, and operations. Play the weather example if time allows. It uses the same parts with a different tool.
 
 https://skein.js.org/
 https://skein.js.org/building-blocks
@@ -227,7 +226,7 @@ https://skein.js.org/building-blocks
 
 ---
 
-# How Skein finds your graph
+# Tell Skein which graph to run
 
 <div class="flow" role="group" aria-label="Graph registration">
   <div><strong><code>skein dev</code></strong></div>
@@ -256,17 +255,17 @@ https://github.com/skein-js/skein-js/blob/1b1a4d4018d1dad718054cd4f71d65f582e653
 
 ---
 
-# A run can outlive its stream
+# The agent can keep working
 
 <div class="timeline" role="group" aria-label="Browser stream and background run">
-  <div><strong>Start</strong><span>Run ID</span></div>
+  <div><strong>Send</strong><span>Start a run</span></div>
   <div><strong>Watch</strong><span>Live updates</span></div>
-  <div><strong>Pause updates</strong><span>Stream closes</span></div>
-  <div><strong>Reconnect</strong><span>Rejoin or restore</span></div>
-  <div class="run-track"><strong>The run can continue</strong><span aria-hidden="true"></span></div>
+  <div><strong>Pause updates</strong><span>Stop watching</span></div>
+  <div><strong>Reconnect</strong><span>See the latest progress</span></div>
+  <div class="run-track"><strong>Work can continue on the server</strong><span aria-hidden="true"></span></div>
 </div>
 
-<p class="callout">What would <strong>Stop run</strong> do?</p>
+<p class="callout">What does <strong>Stop run</strong> do?</p>
 
 <!--
 22:00–25:00
@@ -279,17 +278,17 @@ https://skein.js.org/background-jobs
 
 ---
 
-# The production stack on Google Cloud
+# Where the demo runs
 
 <div class="cloud-diagram" role="group" aria-label="The demo’s Google Cloud architecture">
   <div class="cloud-tier"><strong>Browser</strong><span>Angular · A2UI</span></div>
   <span class="cloud-arrow" aria-hidden="true">↕</span>
-  <div class="cloud-tier cloud-boundary"><strong>Cloud Run</strong><span>Skein API + worker · LangGraph.js</span></div>
+  <div class="cloud-tier cloud-boundary"><strong>Cloud Run</strong><span>Web app · Skein · LangGraph.js</span></div>
   <span class="cloud-arrow" aria-hidden="true">↕</span>
   <div class="cloud-services">
     <div class="cloud-tier"><strong>Vertex AI</strong><span>Gemini 3.5 Flash-Lite</span></div>
-    <div class="cloud-tier"><strong>Cloud SQL for PostgreSQL</strong><span>Threads · Checkpoints</span></div>
-    <div class="cloud-tier"><strong>Memorystore for Redis</strong><span>Run queue · Live events</span></div>
+    <div class="cloud-tier"><strong>Cloud SQL for PostgreSQL</strong><span>Saved chats · Drafts · Approvals</span></div>
+    <div class="cloud-tier"><strong>Memorystore for Redis</strong><span>Queued work · Live updates</span></div>
   </div>
 </div>
 
@@ -307,22 +306,22 @@ https://docs.cloud.google.com/run/docs/deploying#sidecars
 
 ---
 
-# Cloud Run worker settings
+# Keep the agent working on Cloud Run
 
 <div class="terms term-stack">
-  <div><strong>CPU</strong><span>Instance-based billing + warm instance</span></div>
-  <div><strong>Concurrency</strong><span>HTTP requests · Worker runs</span></div>
-  <div><strong>Timeout</strong><span>Reconnect the stream</span></div>
+  <div><strong>CPU</strong><span>Keep it available between requests</span></div>
+  <div><strong>Concurrency</strong><span>Set separate limits for requests and runs</span></div>
+  <div><strong>Timeout</strong><span>Reconnect when the connection closes</span></div>
 </div>
 
-<p class="callout">Rehearsal <span aria-hidden="true">·</span> New Cloud Run revision <span aria-hidden="true">→</span> Same pending review</p>
+<p class="callout">In rehearsal, a new deployment opened the same draft.</p>
 
 <p><Link to="cloud-setup">Cloud Run deployment guide</Link></p>
 
 <!--
 29:00–33:00
 
-The start-run request can return while the work is still in Redis. The worker needs CPU between requests to pull jobs. A warm instance costs money and can still be replaced. Our demo limits active worker runs separately from HTTP requests. Budget Cloud SQL connections as instances scale. A stream can time out. Reconnect or reload the saved state. In rehearsal, the new revision loaded the pending review from the same Cloud SQL database and completed approval without rerunning the model. An in-flight model call may fail during replacement. Run recovery and idempotent side effects need their own design. Point to the Cloud Run deployment guide for attendees who want to deploy their own graph.
+The browser can start a run and get a response while the work is still in Redis. Keep CPU available between requests with instance-based billing and a warm instance. The warm instance costs money and can still be replaced. Limit HTTP requests and worker runs separately, and leave room for Cloud SQL connections as instances scale. If a stream times out, reconnect or load the saved draft. In rehearsal, a new revision opened the draft from Cloud SQL and completed approval without asking Gemini to generate it again. A model call can still fail during replacement. If you retry work that changes something outside the app, plan how to avoid doing it twice. Point to the deployment guide.
 
 https://docs.cloud.google.com/run/docs/configuring/billing-settings
 https://docs.cloud.google.com/run/docs/about-concurrency
@@ -332,13 +331,13 @@ https://skein.js.org/deploy-cloud-run
 
 ---
 
-# The dashboard is ready for review
+# The dashboard is ready to approve
 
 <div class="split dashboard-demo">
   <div class="dashboard-steps">
     <strong>A2UI JSON</strong>
     <span aria-hidden="true">↓</span>
-    <strong>Angular components</strong>
+    <strong>Dashboard in Angular</strong>
     <p class="callout"><strong>Approve UI</strong></p>
   </div>
   <img src="/workshop/images/review.jpg" alt="The validated GitHub dashboard in the A2UI playground with the app’s Approve UI control" />
@@ -354,13 +353,13 @@ https://skein.js.org/recipes/a2ui
 
 ---
 
-# Can we recover the draft?
+# Open the same chat again
 
 <div class="split live-exercise">
   <ol>
     <li>Send the prompt</li>
     <li><strong>Pause updates</strong> <span aria-hidden="true">→</span> <strong>Reconnect</strong></li>
-    <li>Reopen the same URL</li>
+    <li>Close the tab <span aria-hidden="true">→</span> Open the same link</li>
     <li><strong>Approve UI</strong></li>
   </ol>
   <div class="replay-frames">
@@ -383,8 +382,8 @@ Start a fresh thread in the authenticated deployment and send the opening prompt
 <div class="end-frame">
   <div class="end-card">
     <div>
-      <h1>Try the recovery yourself</h1>
-      <p>2-minute browser replay · Local TypeScript codelab</p>
+      <h1>Try the dashboard demo</h1>
+      <p>Watch the replay or run it on your machine.</p>
       <nav class="speaker-socials" aria-label="Maina Wycliffe’s profiles and company website">
         <a href="https://github.com/mainawycliffe">GitHub @mainawycliffe</a>
         <a href="https://www.linkedin.com/in/mainawycliffe/">LinkedIn @mainawycliffe</a>
@@ -394,7 +393,7 @@ Start a fresh thread in the authenticated deployment and send the opening prompt
     </div>
     <figure class="qr-block">
       <img src="/workshop-qr.png" alt="QR code linking to the DevFest Lusaka workshop materials" />
-      <figcaption><a href="./workshop/index.html">Open the replay and codelab</a></figcaption>
+      <figcaption><a href="./workshop/index.html">Open the workshop</a></figcaption>
     </figure>
   </div>
 </div>
@@ -402,7 +401,7 @@ Start a fresh thread in the authenticated deployment and send the opening prompt
 <!--
 41:00–45:00
 
-Give attendees time to save the link. Open the two-minute replay and ask people to predict what they’ll see when they reopen the chat. They can reveal the result in their browser without creating an account. The local lab uses the existing TypeScript example and an AI Studio key. Start with SQLite, restart Skein before approving the draft, then try a follow-up on the same thread. For Q&A, ask which user action in their own app ought to survive closing a tab. Leave this slide visible.
+Give attendees time to scan the link. They can watch the two-minute replay in a browser without an account. In the local lab, they’ll run the TypeScript example, reopen the same draft after restarting the server, and try a follow-up in the same chat. Ask what work their own users should be able to return to. Leave this slide visible for Q&A.
 -->
 
 ---
@@ -417,7 +416,7 @@ routeAlias: cloud-setup
       <img src="/skein-knot.svg" alt="" />
       <a href="https://skein.js.org/deploy-cloud-run">skein.js.org/deploy-cloud-run</a>
     </div>
-    <p class="slide-lead">Build the container · Connect Postgres and Redis · Verify a background run</p>
+    <p class="slide-lead">Build the image · Add Postgres and Redis · Test a run</p>
   </div>
   <figure class="qr-block">
     <img src="/deck-qr.png" alt="QR code linking to the published DevFest Lusaka workshop slides" />

@@ -2,7 +2,7 @@
 
 **Beyond the Demo: Building Reliable AI Agents with Gemini and Cloud Run**
 
-Maina Wycliffe presents a 45-minute guided workshop for beginner and intermediate developers. The audience follows one GitHub dashboard from a dropped connection to a saved approval. The hosted demo uses Gemini on Vertex AI. Students can start with the two-minute browser replay, then run the demo locally and make a dashboard of their own. [Replay and codelab](public/workshop/index.html)
+Maina Wycliffe presents a 45-minute guided workshop for beginner and intermediate developers. The goal is to deploy an AI agent that saves your work. Attendees follow a GitHub dashboard from a lost connection to reopening the same draft and approving it. The hosted demo uses Gemini on Vertex AI. Try the two-minute replay, then run the demo locally and make a dashboard of your own. [Workshop](public/workshop/index.html)
 
 Use the organizer's speaker instructions for your slot and joining link. [DevFest Lusaka event listing](https://gdg.community.dev/events/details/google-gdg-lusaka-presents-devfest-lusaka-2026/)
 
@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Use Node 22.12 or newer for the slides. Open the URL Slidev prints for the audience and `/presenter` for the timed speaker notes. The playground clip plays when you reach slide 2. On the recovery slide, press Right to show the restored draft, then the approval. The Skein slide includes the 14-second building-blocks animation. The README for the [private deployment](../../demos/devfest-lusaka-2026/README.md) records the runtime setup and rehearsal checklist.
+Use Node 22.12 or newer for the slides. Open the URL Slidev prints for the audience and `/presenter` for the timed speaker notes. The playground clip plays when you reach slide 2. On slide 14, press Right to show the saved draft after reopening the chat, then the approval. The Skein slide includes the 14-second building-blocks animation. The README for the [private deployment](../../demos/devfest-lusaka-2026/README.md) records the runtime setup and rehearsal checklist.
 
 The Cloud Run worker settings slide links to the deployment resource after the closing slide. [Skein Cloud Run deployment guide](https://skein.js.org/deploy-cloud-run)
 
